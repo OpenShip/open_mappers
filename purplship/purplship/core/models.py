@@ -32,6 +32,11 @@ class Address:
     address_line1: str = ""
     address_line2: str = ""
 
+    street_name: str = None
+    street_number: str = None
+    suite: str = None
+    street_type: str = None
+
     federal_tax_id: str = None
     state_tax_id: str = None
 

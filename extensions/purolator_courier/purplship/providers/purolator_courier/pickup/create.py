@@ -10,6 +10,9 @@ from purolator_lib.pickup_service_1_2_1 import (
     Weight,
     WeightUnit,
     NotificationEmails,
+    ShipmentSummary,
+    ArrayOfShipmentSummaryDetail,
+    ShipmentSummaryDetail
 )
 from purplship.core.units import Phone, Packages
 from purplship.core.models import PickupUpdateRequest, PickupRequest, PickupDetails, Message
@@ -61,7 +64,6 @@ def _extract_pickup_details(
         carrier_name=settings.carrier_name,
         confirmation_number=reply.PickUpConfirmationNumber,
     )
-
 
 def pickup_request(
     payload: PickupRequest, settings: Settings
@@ -131,12 +133,12 @@ def _schedule_pickup_request(
                 Name=payload.address.person_name or "",
                 Company=payload.address.company_name,
                 Department=None,
-                StreetNumber="",
+                StreetNumber=payload.address.street_number,
                 StreetSuffix=None,
-                StreetName=SF.concat_str(payload.address.address_line1, join=True),
-                StreetType=None,
+                StreetName=payload.address.street_name,
+                StreetType=payload.address.street_type,
                 StreetDirection=None,
-                Suite=None,
+                Suite=payload.address.suite,
                 Floor=None,
                 StreetAddress2=SF.concat_str(payload.address.address_line2, join=True),
                 StreetAddress3=None,
@@ -152,7 +154,22 @@ def _schedule_pickup_request(
                 ),
                 FaxNumber=None,
             ),
-            ShipmentSummary=None,
+            ShipmentSummary=ShipmentSummary(
+                ShipmentSummaryDetails = ArrayOfShipmentSummaryDetail(
+                        ShipmentSummaryDetail = [
+                            ShipmentSummaryDetail(
+                                DestinationCode = payload.options.get("ShipmentSummaryDetail")["DestinationCode"],
+                                ModeOfTransport = payload.options.get("ShipmentSummaryDetail")["ModeOfTransport"],
+                                TotalPieces = payload.options.get("ShipmentSummaryDetail")["TotalPieces"],
+                                TotalWeight = Weight(
+                                        Value = payload.options.get("ShipmentSummaryDetail")["WeightValue"],
+                                        WeightUnit = payload.options.get("ShipmentSummaryDetail")["WeightUnit"],
+                                    )
+                            )
+                            ]
+                    )
+                )
+                ,
             NotificationEmails=NotificationEmails(
                 NotificationEmail=[payload.address.email]
             ),
