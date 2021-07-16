@@ -67,17 +67,13 @@ def _extract_shipment(response: Element, settings: Settings) -> ShipmentDetails:
     document = XP.find("DocumentDetail", response, DocumentDetail, first=True) or DocumentDetail()
 
     pin = cast(PIN, shipment.ShipmentPIN).Value
-    label = next(
-        (content for content in [document.Data, document.URL] if content is not None),
-        None,
-    )
 
     return ShipmentDetails(
         carrier_name=settings.carrier_name,
         carrier_id=settings.carrier_id,
         tracking_number=pin,
         shipment_identifier=pin,
-        label=label,
+        label=document.Data,
     )
 
 
@@ -93,7 +89,7 @@ def shipment_request(
 
 def _shipment_request(payload: ShipmentRequest, settings: Settings) -> Serializable[Envelope]:
     packages = Packages(payload.parcels, PackagePresets, required=["weight"])
-    service = Product[payload.service].value
+    service = Product.map(payload.service).value_or_key
     options = Options(payload.options, Service)
 
     is_document = all([parcel.is_document for parcel in payload.parcels])
@@ -111,7 +107,7 @@ def _shipment_request(payload: ShipmentRequest, settings: Settings) -> Serializa
             Version="2.1",
             Language=settings.language,
             GroupID="",
-            RequestReference=payload.reference,
+            RequestReference=(getattr(payload, 'id', None) or ""),
             UserToken=settings.user_token,
         ),
         body_content=CreateShipmentRequest(
@@ -297,10 +293,11 @@ def _shipment_request(payload: ShipmentRequest, settings: Settings) -> Serializa
                     NotificationInformation(
                         ConfirmationEmailAddress=(options.notification_email or payload.recipient.email)
                     )
-                    if options.notification_email is None else None
+                    if any([options.notification_email or payload.recipient.email]) else None
                 ),
-                TrackingReferenceInformation=TrackingReferenceInformation(
-                    Reference1=payload.reference
+                TrackingReferenceInformation=(
+                    TrackingReferenceInformation(Reference1=payload.reference)
+                    if payload.reference != "" else None
                 ),
                 OtherInformation=None,
                 ProactiveNotification=None,

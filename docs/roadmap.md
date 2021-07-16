@@ -150,26 +150,16 @@
   </tr>
   
   <tr>
-    <td><code>Nationex</code></td>
-    <td align="center"><img alt="⚫" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/26ab.svg" title=":black_circle:"></td>
-    <td align="center"><img alt="⚫" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/26ab.svg" title=":black_circle:"></td>
-    <td align="center"><img alt="⚫" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/26ab.svg" title=":black_circle:"></td>
-    <td align="center"><img alt="⚫" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/26ab.svg" title=":black_circle:"></td>
-    <td align="center"><img alt="⚫" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/26ab.svg" title=":black_circle:"></td>
-    <td></td>
-  </tr>
-  
-  <tr>
     <td colspan="7"><strong>United States</strong></td>
   </tr>
   
   <tr>
     <td><code>USPS</code></td>
-    <td align="center"><img alt="🔲" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f532.svg" title=":black_square_button:"></td>
-    <td align="center"><img alt="🔲" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f532.svg" title=":black_square_button:"></td>
     <td align="center"><img alt="☑" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2611.svg" title=":ballot_box_with_check:"></td>
-    <td align="center"><img alt="🔲" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f532.svg" title=":black_square_button:"></td>
-    <td align="center"><img alt="🔲" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f532.svg" title=":black_square_button:"></td>
+    <td align="center"><img alt="☑" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2611.svg" title=":ballot_box_with_check:"></td>
+    <td align="center"><img alt="✅" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2705.svg" title=":white_check_mark:"></td>
+    <td align="center"><img alt="☑" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2611.svg" title=":ballot_box_with_check:"></td>
+    <td align="center"><img alt="☑" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2611.svg" title=":ballot_box_with_check:"></td>
     <td><code>purplship.usps</code></td>
   </tr>
   

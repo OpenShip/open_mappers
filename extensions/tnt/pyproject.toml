@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "purplship.tnt"
-version = "2021.6.1"
+version = "2021.7"
 homepage="https://sdk.purplship.com"
 repository="https://github.com/Purplship/purplship"
 description = "Purplship - TNT Shipping Extension"

@@ -54,7 +54,7 @@ def shipment_request(payload: ShipmentRequest, settings: Settings) -> Serializab
     if payload.recipient.country_code is not None and payload.recipient.country_code != Country.US.name:
         raise DestinationNotServicedError(payload.recipient.country_code)
 
-    service = ServiceType[payload.service].value
+    service = ServiceType.map(payload.service).value_or_key
     package = Packages(payload.parcels).single
     options = Options(payload.options, ShipmentOption)
 

@@ -32,7 +32,7 @@ from purolator_lib.estimate_service_2_1_2 import (
     OptionIDValuePair,
 )
 from purplship.core.units import Currency, Packages, Options, Phone, Services
-from purplship.core.utils import Serializable, Element, SF, NF, create_envelope
+from purplship.core.utils import Serializable, Element, SF, NF, XP, create_envelope
 from purplship.core.models import RateRequest, RateDetails, Message, ChargeDetails
 from purplship.providers.purolator.utils import Settings, standard_request_serializer
 from purplship.providers.purolator.error import parse_error_response
@@ -44,7 +44,7 @@ from purplship.providers.purolator.units import (
 def parse_rate_response(
     response: Element, settings: Settings
 ) -> Tuple[List[RateDetails], List[Message]]:
-    estimates = response.xpath(".//*[local-name() = $name]", name="ShipmentEstimate")
+    estimates = XP.find("ShipmentEstimate", response)
     return (
         [_extract_rate(node, settings) for node in estimates],
         parse_error_response(response, settings),
@@ -52,9 +52,9 @@ def parse_rate_response(
 
 
 def _extract_rate(estimate_node: Element, settings: Settings) -> RateDetails:
-    estimate = ShipmentEstimate()
-    estimate.build(estimate_node)
+    estimate = XP.build(ShipmentEstimate, estimate_node)
     currency = Currency.CAD.name
+    service = Product.map(estimate.ServiceID)
     duties_and_taxes = [
         ChargeDetails(
             name=cast(Tax, tax).Description,
@@ -79,7 +79,6 @@ def _extract_rate(estimate_node: Element, settings: Settings) -> RateDetails:
         )
         for charge in estimate.OptionPrices.OptionPrice
     ]
-    service = Product.map(estimate.ServiceID)
 
     return RateDetails(
         carrier_name=settings.carrier_name,
@@ -91,9 +90,7 @@ def _extract_rate(estimate_node: Element, settings: Settings) -> RateDetails:
         total_charge=NF.decimal(estimate.TotalPrice),
         duties_and_taxes=NF.decimal(sum(c.amount for c in duties_and_taxes)),
         extra_charges=(duties_and_taxes + surcharges + option_charges),
-        meta=dict(
-            service_name=service.name_or_key
-        )
+        meta=dict(service_name=service.name_or_key)
     )
 
 
@@ -125,7 +122,7 @@ def rate_request(payload: RateRequest, settings: Settings) -> Serializable[Envel
             Version="2.1",
             Language=settings.language,
             GroupID="",
-            RequestReference="",
+            RequestReference=getattr(payload, 'id', ""),
             UserToken=settings.user_token,
         ),
         body_content=GetFullEstimateRequest(

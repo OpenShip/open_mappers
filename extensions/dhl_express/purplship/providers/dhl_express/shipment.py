@@ -56,10 +56,8 @@ UNSUPPORTED_PAPERLESS_COUNTRIES = ['JM']
 def parse_shipment_response(
         response: Element, settings: Settings
 ) -> Tuple[ShipmentDetails, List[Message]]:
-    air_way_bill = next(
-        iter(response.xpath(".//*[local-name() = $name]", name="AirwayBillNumber")),
-        None,
-    )
+    air_way_bill = XP.find("AirwayBillNumber", response, first=True)
+
     return (
         _extract_shipment(response, settings) if air_way_bill is not None else None,
         parse_error_response(response, settings),
@@ -67,9 +65,9 @@ def parse_shipment_response(
 
 
 def _extract_shipment(shipment_node, settings: Settings) -> Optional[ShipmentDetails]:
-    tracking_number = shipment_node.xpath(".//*[local-name() = $name]", name="AirwayBillNumber")[0].text
-    label_node = shipment_node.xpath(".//*[local-name() = $name]", name="LabelImage")[0]
-    label = encodebytes(XP.build(LabelImage, label_node).OutputImage).decode("utf-8")
+    tracking_number = XP.find("AirwayBillNumber", shipment_node, first=True).text
+    label_image = XP.find("LabelImage", shipment_node, LabelImage, first=True)
+    label = encodebytes(label_image.OutputImage).decode("utf-8")
 
     return ShipmentDetails(
         carrier_name=settings.carrier_name,
@@ -83,7 +81,7 @@ def _extract_shipment(shipment_node, settings: Settings) -> Optional[ShipmentDet
 def shipment_request(payload: ShipmentRequest, settings: Settings) -> Serializable[DHLShipmentRequest]:
     packages = Packages.map(payload.parcels, PackagePresets, required=["weight"])
     options = Options(payload.options, SpecialServiceCode)
-    product = next((p.value for p in ProductCode if payload.service == p.name), payload.service)
+    product = ProductCode.map(payload.service).value_or_key
     shipper = CompleteAddress.map(payload.shipper)
     recipient = CompleteAddress.map(payload.recipient)
 

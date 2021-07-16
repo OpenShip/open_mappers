@@ -152,7 +152,7 @@ SHIPMENT_REQUEST_XML = f"""<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org
             <v2:Version>2.1</v2:Version>
             <v2:Language>en</v2:Language>
             <v2:GroupID></v2:GroupID>
-            <v2:RequestReference>Reference For Shipment</v2:RequestReference>
+            <v2:RequestReference></v2:RequestReference>
             <v2:UserToken>token</v2:UserToken>
         </v2:RequestContext>
     </soap:Header>
@@ -211,7 +211,6 @@ SHIPMENT_REQUEST_XML = f"""<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org
                 <v2:PickupInformation>
                     <v2:PickupType>DropOff</v2:PickupType>
                 </v2:PickupInformation>
-                <v2:NotificationInformation/>
                 <v2:TrackingReferenceInformation>
                     <v2:Reference1>Reference For Shipment</v2:Reference1>
                 </v2:TrackingReferenceInformation>
@@ -228,7 +227,7 @@ SHIPMENT_DOCUMENT_REQUEST_XML = """<soap:Envelope xmlns:soap="http://schemas.xml
             <v1:Version>1.3</v1:Version>
             <v1:Language>en</v1:Language>
             <v1:GroupID></v1:GroupID>
-            <v1:RequestReference>Reference For Shipment</v1:RequestReference>
+            <v1:RequestReference></v1:RequestReference>
             <v1:UserToken>token</v1:UserToken>
         </v1:RequestContext>
     </soap:Header>

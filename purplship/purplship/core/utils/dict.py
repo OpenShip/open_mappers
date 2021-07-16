@@ -23,7 +23,7 @@ class DICTPARSE:
             if isinstance(item, types.FunctionType):
                 return None
             if isinstance(item, type):
-                return None
+                return str(item)
             if isinstance(item, Callable):
                 return str(item)
             if hasattr(item, "__dict__"):

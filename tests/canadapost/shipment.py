@@ -168,6 +168,7 @@ shipment_data = {
         "cash_on_delivery": 10.5,
         "insurance": 70.0,
     },
+    "reference": "#Order 11111",
 }
 
 shipment_with_package_preset_data = {
@@ -270,7 +271,7 @@ ShipmentRequestXML = """<shipment xmlns="http://www.canadapost.ca/ws/shipment-v8
             </option>
         </options>
         <parcel-characteristics>
-            <weight>20.</weight>
+            <weight>20</weight>
             <dimensions>
                 <length>6.0</length>
                 <width>12.0</width>
@@ -287,7 +288,8 @@ ShipmentRequestXML = """<shipment xmlns="http://www.canadapost.ca/ws/shipment-v8
             <show-insured-value>true</show-insured-value>
         </preferences>
         <references>
-            <customer-ref-1></customer-ref-1>
+            <cost-centre>#Order 11111</cost-centre>
+            <customer-ref-1>#Order 11111</customer-ref-1>
         </references>
         <settlement-info>
             <paid-by-customer>2004381</paid-by-customer>
@@ -350,6 +352,7 @@ ShipmentRequestWithPackagePresetXML = """<shipment xmlns="http://www.canadapost.
             <show-insured-value>true</show-insured-value>
         </preferences>
         <references>
+            <cost-centre></cost-centre>
             <customer-ref-1></customer-ref-1>
         </references>
         <settlement-info>
@@ -399,7 +402,7 @@ NonContractShipmentRequestXML = """<non-contract-shipment xmlns="http://www.cana
             </option>
         </options>
         <parcel-characteristics>
-            <weight>20.</weight>
+            <weight>20</weight>
             <dimensions>
                 <length>6.0</length>
                 <width>12.0</width>
@@ -412,7 +415,8 @@ NonContractShipmentRequestXML = """<non-contract-shipment xmlns="http://www.cana
             <show-insured-value>true</show-insured-value>
         </preferences>
         <references>
-            <customer-ref-1></customer-ref-1>
+            <cost-centre>#Order 11111</cost-centre>
+            <customer-ref-1>#Order 11111</customer-ref-1>
         </references>
     </delivery-spec>
 </non-contract-shipment>

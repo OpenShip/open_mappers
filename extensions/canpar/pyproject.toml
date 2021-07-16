@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "purplship.canpar"
-version = "2021.3"
+version = "2021.7"
 homepage="https://sdk.purplship.com"
 repository="https://github.com/Purplship/purplship"
 description = "Purplship - Canpar Shipping Extension"

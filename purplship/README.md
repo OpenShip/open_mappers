@@ -159,15 +159,16 @@ print(rates)
 
 - [**Documentation**](https://sdk.purplship.com)
 - [**Bug Tracker**](https://github.com/puprlship/purplship/issues)
-- [**Community on Discord**](https://discord.gg/gS88uE7sEx)
+- [**Github Community**](https://github.com/purplship/purplship-server/discussions)
 
 ## Contributing
 
 We encourage you to contribute to puprlship! Please check out the
 [Contributing to purplship guide](/docs/development/contributing.md) for guidelines about how to proceed.
-[Join the purplship Community!](https://github.com/purplship/purplship/discussions)
+[Join the purplship discord channel!](https://discord.gg/gS88uE7sEx)
 
-Do you want to extend purplship and integrate a custom carrier, check out [Extending purplship](https://sdk.purplship.com/development/extending/)
+Do you want to extend purplship and integrate a custom carrier, check out 
+[Extending purplship](https://sdk.purplship.com/development/extending/)
 
 ## License
 

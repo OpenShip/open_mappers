@@ -165,6 +165,7 @@ ParsedRateResponse = [
             "extra_charges": [
                 {"amount": 12.7, "currency": "CAD", "name": "FUEL SURCHARGE"}
             ],
+            "meta": {"service_name": "dhl_express_worldwide_doc"},
             "service": "dhl_express_worldwide_doc",
             "total_charge": 208.02,
         },
@@ -177,6 +178,7 @@ ParsedRateResponse = [
             "duties_and_taxes": 0.0,
             "transit_days": 5,
             "extra_charges": [],
+            "meta": {"service_name": "dhl_express_easy_doc"},
             "service": "dhl_express_easy_doc",
             "total_charge": 213.47,
         },

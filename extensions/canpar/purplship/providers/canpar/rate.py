@@ -22,7 +22,7 @@ from purplship.providers.canpar.units import WeightUnit, DimensionUnit, Option, 
 
 
 def parse_rate_response(response: Element, settings: Settings) -> Tuple[List[RateDetails], List[Message]]:
-    shipment_nodes = response.xpath(".//*[local-name() = $name]", name="shipment")
+    shipment_nodes = XP.find("shipment", response)
     rates: List[RateDetails] = [
         _extract_rate_details(node, settings) for node in shipment_nodes
     ]
@@ -31,6 +31,7 @@ def parse_rate_response(response: Element, settings: Settings) -> Tuple[List[Rat
 
 def _extract_rate_details(node: Element, settings: Settings) -> RateDetails:
     shipment = XP.build(Shipment, node)
+    service = Service.map(shipment.service_type)
     surcharges = [
         ChargeDetails(
             name=charge.value,
@@ -55,11 +56,12 @@ def _extract_rate_details(node: Element, settings: Settings) -> RateDetails:
         carrier_id=settings.carrier_id,
         currency="CAD",
         transit_days=shipment.transit_time,
-        service=Service(shipment.service_type).name,
+        service=service.name_or_key,
         base_charge=NF.decimal(shipment.freight_charge),
         total_charge=sum([c.amount for c in (surcharges + taxes)], 0.0),
         duties_and_taxes=sum([t.amount for t in taxes], 0.0),
         extra_charges=(surcharges + taxes),
+        meta=dict(service_name=(service.name or shipment.service_type)),
     )
 
 

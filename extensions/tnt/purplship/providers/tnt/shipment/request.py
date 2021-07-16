@@ -32,10 +32,10 @@ def shipment_request(payload: ShipmentRequest, settings: Settings) -> Serializab
     ref = f"ref_{uuid4()}"
     options = Options(payload.options, ShipmentOption)
     package = Packages(payload.parcels).single
-    service = ShipmentService[payload.service].value
+    service = ShipmentService.map(payload.service).value_or_key
 
     payment = payload.payment or Payment(paid_by='sender')
-    insurance = getattr(options['tnt_insurance'], 'value', None)
+    insurance = getattr(options.tnt_insurance, 'value', None)
 
     request = ESHIPPER(
         LOGIN=LOGIN(

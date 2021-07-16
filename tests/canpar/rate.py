@@ -42,7 +42,9 @@ class TestCanparRating(unittest.TestCase):
             mock.return_value = RateResponseXml
             parsed_response = Rating.fetch(self.RateRequest).from_(gateway).parse()
 
-            self.assertEqual(DP.to_dict(parsed_response), DP.to_dict(ParsedQuoteResponse))
+            self.assertEqual(
+                DP.to_dict(parsed_response), DP.to_dict(ParsedQuoteResponse)
+            )
 
 
 if __name__ == "__main__":
@@ -100,6 +102,7 @@ ParsedQuoteResponse = [
                 },
                 {"amount": 1.34, "currency": "CAD", "name": "ONHST Tax Charge"},
             ],
+            "meta": {"service_name": "canpar_ground"},
             "service": "canpar_ground",
             "total_charge": 11.66,
             "transit_days": 1,

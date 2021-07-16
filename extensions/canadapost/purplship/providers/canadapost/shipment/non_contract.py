@@ -145,7 +145,7 @@ def shipment_request(payload: ShipmentRequest, _) -> Serializable[NonContractShi
                     on_exception=True,
                     on_delivery=True,
                 )
-                if options.notification_email is not None else None
+                if any([options.notification_email, payload.recipient.email]) else None
             ),
             preferences=PreferencesType(
                 show_packing_instructions=False,
@@ -153,9 +153,9 @@ def shipment_request(payload: ShipmentRequest, _) -> Serializable[NonContractShi
                 show_insured_value=("insurance" in payload.options),
             ),
             references=ReferencesType(
-                cost_centre=None,
+                cost_centre=payload.reference,
                 customer_ref_1=payload.reference,
-                customer_ref_2=None,
+                customer_ref_2=getattr(payload, 'id', None),
             ),
             customs=(
                 CustomsType(

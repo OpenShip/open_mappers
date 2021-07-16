@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "purplship.dhl_express"
-version = "2021.6"
+version = "2021.7"
 homepage="https://sdk.purplship.com"
 repository="https://github.com/Purplship/purplship"
 description = "Purplship - DHL Express Shipping Extension"

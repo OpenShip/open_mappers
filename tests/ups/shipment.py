@@ -368,6 +368,10 @@ ShipmentRequestXML = """<tns:Envelope  xmlns:auth="http://www.ups.com/schema/xpc
                         </ship:BillShipper>
                     </ship:ShipmentCharge>
                 </ship:PaymentInformation>
+                <ship:ReferenceNumber>
+                    <ship:Code>CountryCode</ship:Code>
+                    <ship:Value>Your Customer Context</ship:Value>
+                </ship:ReferenceNumber>
                 <ship:Service>
                     <ship:Code>01</ship:Code>
                 </ship:Service>
@@ -474,6 +478,10 @@ ShipmentRequestWithPresetXML = """<tns:Envelope  xmlns:auth="http://www.ups.com/
                         </ship:BillShipper>
                     </ship:ShipmentCharge>
                 </ship:PaymentInformation>
+                <ship:ReferenceNumber>
+                    <ship:Code>CountryCode</ship:Code>
+                    <ship:Value>Your Customer Context</ship:Value>
+                </ship:ReferenceNumber>
                 <ship:Service>
                     <ship:Code>01</ship:Code>
                 </ship:Service>

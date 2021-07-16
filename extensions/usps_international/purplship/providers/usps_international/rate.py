@@ -23,20 +23,21 @@ def parse_rate_response(response: Element, settings: Settings) -> Tuple[List[Rat
     return quotes, parse_error_response(response, settings)
 
 
-def _extract_details(service_node: Element, settings: Settings) -> RateDetails:
-    service: ServiceType = XP.build(ServiceType, service_node)
+def _extract_details(postage_node: Element, settings: Settings) -> RateDetails:
+    postage: ServiceType = XP.build(ServiceType, postage_node)
 
-    charges: List[ExtraServiceType] = service.ExtraServices.ExtraService
-    delivery_date = DF.date(service.GuaranteeAvailability, "%m/%d/%Y")
-    transit = ((delivery_date - datetime.now()).days if delivery_date is not None else None)
+    service = ServiceClassID.map(str(postage.ID))
+    charges: List[ExtraServiceType] = postage.ExtraServices.ExtraService
+    delivery_date = DF.date(postage.GuaranteeAvailability, "%m/%d/%Y")
+    transit = ((delivery_date.date() - datetime.now().date()).days if delivery_date is not None else None)
 
     return RateDetails(
         carrier_name=settings.carrier_name,
         carrier_id=settings.carrier_id,
 
-        service=ServiceClassID(str(service.ID)).name,
-        base_charge=NF.decimal(service.Postage),
-        total_charge=NF.decimal(service.Postage),
+        service=service.name_or_key,
+        base_charge=NF.decimal(postage.Postage),
+        total_charge=NF.decimal(postage.Postage),
         currency=Currency.USD.name,
         transit_days=transit,
         extra_charges=[
@@ -47,6 +48,7 @@ def _extract_details(service_node: Element, settings: Settings) -> RateDetails:
             )
             for charge in charges
         ],
+        meta=dict(service_name=service.name or postage.SvcDescription)
     )
 
 

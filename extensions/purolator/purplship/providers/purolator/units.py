@@ -136,9 +136,9 @@ class Product(Enum):
     purolator_express_international_10_30_am = "PurolatorExpressInternational10:30AM"
     purolator_ground = "PurolatorGround"
     purolator_express_international_12_00 = "PurolatorExpressInternational12:00"
-    purolator_ground9_am = "PurolatorGround9AM"
+    purolator_ground_9_am = "PurolatorGround9AM"
     purolator_express_envelope_international = "PurolatorExpressEnvelopeInternational"
-    purolator_ground10_30_am = "PurolatorGround10:30AM"
+    purolator_ground_10_30_am = "PurolatorGround10:30AM"
     purolator_express_international_envelope_9_am = (
         "PurolatorExpressInternationalEnvelope9AM"
     )

@@ -44,7 +44,7 @@ from purplship.providers.ups.utils import Settings
 def parse_rate_response(
     response: Element, settings: Settings
 ) -> Tuple[List[RateDetails], List[Message]]:
-    rate_reply = response.xpath(".//*[local-name() = $name]", name="RatedShipment")
+    rate_reply = XP.find("RatedShipment", response)
     rates: List[RateDetails] = reduce(_extract_package_rate(settings), rate_reply, [])
     return rates, parse_error_response(response, settings)
 
@@ -68,33 +68,24 @@ def _extract_package_rate(
             itemized_charges = rate.ItemizedCharges + taxes
 
         extra_charges = itemized_charges + [rate.ServiceOptionsCharges]
-        estimated_arrival = next(
-            (
-                XP.build(EstimatedArrivalType, n)
-                for n in detail_node.xpath(
-                    ".//*[local-name() = $name]", name="EstimatedArrival"
-                )
-            ),
-            EstimatedArrivalType(),
+        estimated_arrival = (
+            XP.find("EstimatedArrival", detail_node, EstimatedArrivalType, first=True)
+            or EstimatedArrivalType()
         )
         transit_days = (
             rate.GuaranteedDelivery.BusinessDaysInTransit
             if rate.GuaranteedDelivery is not None
             else estimated_arrival.BusinessDaysInTransit
         )
-        currency_ = next(
-            str(c.text)
-            for c in detail_node.xpath(
-                ".//*[local-name() = $name]", name="CurrencyCode"
-            )
-        )
-        service = ShippingServiceCode(rate.Service.Code).name
+        currency = XP.find("CurrencyCode", detail_node, first=True).text
+        service = ShippingServiceCode.map(rate.Service.Code)
+
         return rates + [
             RateDetails(
                 carrier_name=settings.carrier_name,
                 carrier_id=settings.carrier_id,
-                currency=currency_,
-                service=service,
+                currency=currency,
+                service=service.name_or_key,
                 base_charge=NF.decimal(rate.TransportationCharges.MonetaryValue),
                 total_charge=NF.decimal(total_charges.MonetaryValue),
                 duties_and_taxes=reduce(
@@ -117,6 +108,7 @@ def _extract_package_rate(
                     [],
                 ),
                 transit_days=NF.integer(transit_days),
+                meta=dict(service_name=service.name_or_key)
             )
         ]
 
@@ -143,7 +135,8 @@ def rate_request(
             RequestOption=["Shop", "Rate"],
             SubVersion=None,
             TransactionReference=TransactionReferenceType(
-                CustomerContext=payload.reference, TransactionIdentifier=None
+                CustomerContext=payload.reference,
+                TransactionIdentifier=getattr(payload, 'id', None)
             ),
         ),
         PickupType=None,

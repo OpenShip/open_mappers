@@ -1,5 +1,5 @@
 
 # -e git+https://github.com/Purplship/purplship-carriers.git@consolidate-usps-services-w-live-tests#egg=carrier.usps&subdirectory=usps
-carrier.usps==2021.6rc0
+carrier.canadapost==2021.7rc2
 
 # -e extensions/tnt

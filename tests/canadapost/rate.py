@@ -251,15 +251,15 @@ RateRequestXML = f"""<mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/r
         </option>
         <option>
             <option-code>COV</option-code>
-            <option-amount>1000.</option-amount>
+            <option-amount>1000.0</option-amount>
         </option>
     </options>
     <parcel-characteristics>
-        <weight>4.</weight>
+        <weight>4</weight>
         <dimensions>
-            <length>10.</length>
-            <width>3.</width>
-            <height>3.</height>
+            <length>10.0</length>
+            <width>3.0</width>
+            <height>3.0</height>
         </dimensions>
     </parcel-characteristics>
     <services>
@@ -281,7 +281,7 @@ RateRequestUsingPackagePresetXML = f"""<mailing-scenario xmlns="http://www.canad
         <weight>0.5</weight>
         <dimensions>
             <length>1.5</length>
-            <width>26.</width>
+            <width>26.0</width>
             <height>15.9</height>
         </dimensions>
     </parcel-characteristics>

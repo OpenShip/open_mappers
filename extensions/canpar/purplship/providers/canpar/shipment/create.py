@@ -69,9 +69,8 @@ def shipment_request(payload: ShipmentRequest, settings: Settings) -> Serializab
 def _process_shipment(payload: ShipmentRequest, settings: Settings) -> Job:
     packages = Packages(payload.parcels)
     options = Options(payload.options, Option)
-    service_type: Optional[str] = (
-        Service[payload.service] if payload.service in Service.__members__ else None
-    )
+    service_type = Service.map(payload.service).value_or_key
+
     premium: Optional[bool] = next((True for option, _ in options if option in [
         Option.canpar_ten_am.value,
         Option.canpar_noon.value,
@@ -87,7 +86,7 @@ def _process_shipment(payload: ShipmentRequest, settings: Settings) -> Job:
             request=ProcessShipmentRq(
                 password=settings.password,
                 shipment=Shipment(
-                    cod_type=options['canpar_cash_on_delivery'],
+                    cod_type=options.canpar_cash_on_delivery,
                     delivery_address=Address(
                         address_line_1=payload.recipient.address_line1,
                         address_line_2=payload.recipient.address_line2,
@@ -104,14 +103,12 @@ def _process_shipment(payload: ShipmentRequest, settings: Settings) -> Job:
                         residential=payload.recipient.residential,
                     ),
                     description=None,
-                    dg=options['canpar_dangerous_goods'],
+                    dg=options.canpar_dangerous_goods,
                     dimention_unit=DimensionUnit.IN.value,
                     handling=None,
                     handling_type=None,
                     instruction=None,
-                    nsr=(
-                        options['canpar_no_signature_required'] or options['canpar_not_no_signature_required']
-                    ),
+                    nsr=(options.canpar_no_signature_required or options.canpar_not_no_signature_required),
                     packages=[
                         Package(
                             alternative_reference=None,

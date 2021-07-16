@@ -110,6 +110,7 @@ shipment_data = {
     "options": {"currency": "USD", "international_traffic_in_arms_regulations": True},
     "payment": {"paid_by": "third_party", "account_number": "2349857"},
     "customs": {"duty": {"paid_by": "sender", "declared_value": "100."}},
+    "reference": "#Order 11111"
 }
 
 shipment_cancel_data = {
@@ -269,6 +270,10 @@ ShipmentRequestXml = """<tns:Envelope xmlns:tns="http://schemas.xmlsoap.org/soap
                         <v26:Height>12</v26:Height>
                         <v26:Units>IN</v26:Units>
                     </v26:Dimensions>
+                    <v26:CustomerReferences>
+                        <v26:CustomerReferenceType>CUSTOMER_REFERENCE</v26:CustomerReferenceType>
+                        <v26:Value>#Order 11111</v26:Value>
+                    </v26:CustomerReferences>
                 </v26:RequestedPackageLineItems>
             </v26:RequestedShipment>
         </v26:ProcessShipmentRequest>

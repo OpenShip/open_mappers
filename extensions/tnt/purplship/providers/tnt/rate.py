@@ -27,8 +27,7 @@ from purplship.providers.tnt.error import parse_error_response
 def parse_rate_response(
     response: Element, settings: Settings
 ) -> Tuple[List[RateDetails], List[Message]]:
-    price_node = next(response.xpath(".//*[local-name() = $name]", name="priceResponse"), None)
-    price_response = XP.build(priceResponse, price_node)
+    price_response = XP.find("priceResponse", response, priceResponse, first=True)
 
     if price_response is not None and price_response.ratedServices is not None:
         rate_details = [

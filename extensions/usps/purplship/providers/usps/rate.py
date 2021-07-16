@@ -30,15 +30,16 @@ def parse_rate_response(response: Element, settings: Settings) -> Tuple[List[Rat
 def _extract_details(postage_node: Element, settings: Settings) -> RateDetails:
     postage: PostageType = XP.build(PostageType, postage_node)
 
+    service = ServiceClassID.map(str(postage.CLASSID))
     charges: List[SpecialServiceType] = getattr(postage.SpecialServices, 'SpecialService', [])
     rate = NF.decimal(XP.find('Rate', postage_node, first=True).text)
     estimated_date = DF.date(getattr(XP.find('CommitmentDate', postage_node, first=True), 'text', None))
-    transit = ((estimated_date - datetime.now()).days if estimated_date is not None else None)
+    transit = ((estimated_date.date() - datetime.now().date()).days if estimated_date is not None else None)
 
     return RateDetails(
         carrier_name=settings.carrier_name,
         carrier_id=settings.carrier_id,
-        service=ServiceClassID(str(postage.CLASSID)).name,
+        service=service.name_or_key,
         base_charge=rate,
         total_charge=rate,
         currency=Currency.USD.name,
@@ -50,7 +51,8 @@ def _extract_details(postage_node: Element, settings: Settings) -> RateDetails:
                 currency=Currency.USD.name,
             )
             for charge in charges
-        ]
+        ],
+        meta=dict(service_name=(service.name or postage.MailService))
     )
 
 

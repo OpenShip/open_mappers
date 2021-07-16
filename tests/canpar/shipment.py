@@ -85,7 +85,9 @@ class TestCanparShipment(unittest.TestCase):
                 purplship.Shipment.create(self.ShipmentRequest).from_(gateway).parse()
             )
 
-            self.assertEqual(DP.to_dict(parsed_response), DP.to_dict(ParsedShipmentResponse))
+            self.assertEqual(
+                DP.to_dict(parsed_response), DP.to_dict(ParsedShipmentResponse)
+            )
 
     def test_parse_void_shipment_response(self):
         with patch("purplship.mappers.canpar.proxy.http") as mock:
@@ -162,6 +164,7 @@ ParsedShipmentResponse = [
                 },
                 {"amount": 1.34, "currency": "CAD", "name": "ONHST Tax Charge"},
             ],
+            "meta": {"service_name": "canpar_ground"},
             "service": "canpar_ground",
             "total_charge": 11.66,
             "transit_days": 1,
@@ -221,7 +224,7 @@ ShipmentRequestXML = f"""<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/so
                         <xsd1:residential>false</xsd1:residential>
                     </xsd1:pickup_address>
                     <xsd1:reported_weight_unit>L</xsd1:reported_weight_unit>
-                    <xsd1:service_type>Service.canpar_ground</xsd1:service_type>
+                    <xsd1:service_type>1</xsd1:service_type>
                     <xsd1:shipping_date>{time.strftime('%Y-%m-%d')}T00:00:00</xsd1:shipping_date>
                 </xsd:shipment>
                 <xsd:user_id>user_id</xsd:user_id>

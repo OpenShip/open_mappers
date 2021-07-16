@@ -65,6 +65,7 @@ PARSED_RATE_RESPONSE = [
             "extra_charges": [{"amount": 0.0, "currency": "USD", "name": "Insurance"}],
             "service": "usps_global_express_guaranteed_envelopes",
             "total_charge": 115.9,
+            "meta": {"service_name": "usps_global_express_guaranteed_envelopes"},
         },
         {
             "base_charge": 82.45,
@@ -74,6 +75,7 @@ PARSED_RATE_RESPONSE = [
             "extra_charges": [{"amount": 0.0, "currency": "USD", "name": "Insurance"}],
             "service": "usps_priority_mail_express_international",
             "total_charge": 82.45,
+            "meta": {"service_name": "usps_priority_mail_express_international"},
         },
         {
             "base_charge": 55.35,
@@ -83,6 +85,7 @@ PARSED_RATE_RESPONSE = [
             "extra_charges": [{"amount": 0.0, "currency": "USD", "name": "Insurance"}],
             "service": "usps_priority_mail_international",
             "total_charge": 55.35,
+            "meta": {"service_name": "usps_priority_mail_international"},
         },
     ],
     [],
